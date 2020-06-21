@@ -41,7 +41,7 @@ export class TheFlu extends Virus {
         }
 
         // only allow transmission if the distance between the entities is small enough
-        if (fromEntity.distanceTo(toEntity) > 1.5) {
+        if (fromEntity.distanceTo(toEntity) > this.minimumDistanceBetweenEntitiesForTransmission) {
             return 0
         }
 

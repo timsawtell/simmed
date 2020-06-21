@@ -25,6 +25,5 @@ export class Human extends Entity {
                 })
             })
         }
-        console.log(`${this.name}, viruses: ${this.viruses.length}`)
     }
 }
