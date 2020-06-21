@@ -1,15 +1,18 @@
 import { World } from "../world/world"
+import { Board } from "../web/drawable/board/board"
 
 export class Engine {
     private world: World
     private ticks: number
     private startTime: number
+    private board?: Board
 
-    constructor(world: World) {
+    constructor(world: World, board?: Board) {
         this.world = world
         this.ticks = 0
         this.tick = this.tick.bind(this)
         this.startTime = 0
+        this.board = board
     }
 
     start(): void {
@@ -21,6 +24,10 @@ export class Engine {
         this.world.entities.forEach((entity) => {
             entity.tick(this.ticks, new Date().getMilliseconds() - this.startTime)
         })
+
+        if (this.board) {
+            this.board.tick(this.ticks, new Date().getMilliseconds() - this.startTime, this.world)
+        }
 
         this.ticks++
         const infected = this.world.entities.filter((entity) => {
@@ -34,7 +41,6 @@ export class Engine {
 
         setTimeout(this.tick, 100)
 
-        console.log(`Tick: ${this.ticks}`)
-        console.log(`Infected people: ${infected}`)
+        console.log(this.world.entities[0].distanceTo(this.world.entities[1]))
     }
 }

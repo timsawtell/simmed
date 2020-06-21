@@ -8,4 +8,8 @@ lint:
 
 run:
 	yarn
-	yarn run ts-node src/simulation/simulation.ts
+	yarn run ts-node runnable.ts
+
+build-web:
+	yarn run webpack-cli
+	cp src/web/index.html dist

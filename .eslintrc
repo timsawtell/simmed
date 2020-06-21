@@ -10,5 +10,5 @@
     "rules": {
         "no-constant-condition": "off"
     },
-    "ignorePatterns": "jest.config.js"
+    "ignorePatterns": "*.config.js"
 }

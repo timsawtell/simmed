@@ -1,4 +1,5 @@
 import { Entity } from "./base"
+import { BOARD_SCALE } from "../simulation/simulation"
 
 export abstract class Virus {
     name: string
@@ -12,7 +13,7 @@ export abstract class Virus {
         this.carriers = []
         this.affects = []
         this.chanceOfTransmission = 0
-        this.minimumDistanceBetweenEntitiesForTransmission = 1.5
+        this.minimumDistanceBetweenEntitiesForTransmission = 0
     }
 
     abstract probabilityOfTransmission(entityA: Entity, entityB: Entity): number
@@ -25,8 +26,8 @@ export class TheFlu extends Virus {
         this.name = "TheFlu"
         this.affects = ["Human"]
         this.carriers = ["Human"]
-        this.chanceOfTransmission = 0.02
-        this.minimumDistanceBetweenEntitiesForTransmission = 1.5
+        this.chanceOfTransmission = 0.2
+        this.minimumDistanceBetweenEntitiesForTransmission = 1.5 * BOARD_SCALE
     }
 
     probabilityOfTransmission(fromEntity: Entity, toEntity: Entity): number {
