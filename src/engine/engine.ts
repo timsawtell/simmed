@@ -41,6 +41,6 @@ export class Engine {
 
         setTimeout(this.tick, 100)
 
-        console.log(this.world.entities[0].distanceTo(this.world.entities[1]))
+        console.log("Distance: " + this.world.entities[0].distanceTo(this.world.entities[1]))
     }
 }
