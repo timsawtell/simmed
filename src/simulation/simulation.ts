@@ -19,14 +19,14 @@ export class Simulation {
         humanA.viruses.push(new TheFlu())
 
         // Move Bob away
-        humanA.positionX = 11
-        humanA.positionY = 11
+        humanA.positionX = 245
+        humanA.positionY = 266
 
-        // Make Alice meander horizontally
+        // Make Alice wander around
         humanB.instruction = "wander"
 
-        // Make Bob wander around
-        humanA.instruction = "wander"
+        // Make Bob stay still
+        humanA.instruction = "stationary"
 
         world.addEntity(humanA)
         world.addEntity(humanB)

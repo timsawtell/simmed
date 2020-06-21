@@ -113,6 +113,9 @@ export class Board extends Drawable {
         for (let yStep = 0; yStep < numberOfYSquares; yStep++) {
             for (let xStep = 0; xStep < numberOfXSquares; xStep++) {
                 this.squares[yStep][xStep].draw(context)
+                setTimeout(() => {
+                    this.squares[yStep][xStep].drawViruses(context)
+                })
             }
         }
     }
