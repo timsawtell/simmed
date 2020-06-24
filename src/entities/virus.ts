@@ -27,7 +27,7 @@ export class TheFlu extends Virus {
         this.affects = ["Human"]
         this.carriers = ["Human"]
         this.chanceOfTransmission = 0.2
-        this.minimumDistanceBetweenEntitiesForTransmission = 1.5 * BOARD_SCALE
+        this.minimumDistanceBetweenEntitiesForTransmission = 5.5 * BOARD_SCALE
     }
 
     probabilityOfTransmission(fromEntity: Entity, toEntity: Entity): number {

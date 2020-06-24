@@ -76,5 +76,6 @@ export class Human extends Entity {
                 })
             })
         }
+        console.log(this.positionX + ", " + this.positionY)
     }
 }

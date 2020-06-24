@@ -18,7 +18,7 @@ export class Square extends Drawable {
         this.isRed = false
     }
 
-    drawViruses(context: CanvasRenderingContext2D) {
+    drawViruses(context: CanvasRenderingContext2D): void {
         if (this.contents.length > 0) {
             this.contents.forEach((entity) => {
                 entity.viruses.forEach((virus) => {
@@ -26,7 +26,7 @@ export class Square extends Drawable {
                     context.arc(
                         this.canvasVector.x + this.width / 2,
                         this.canvasVector.y + this.width / 2,
-                        100,
+                        virus.minimumDistanceBetweenEntitiesForTransmission,
                         0,
                         2 * Math.PI
                     )
@@ -36,7 +36,7 @@ export class Square extends Drawable {
         }
     }
 
-    draw(context: CanvasRenderingContext2D) {
+    draw(context: CanvasRenderingContext2D): void {
         super.draw(context)
 
         //draw your own border

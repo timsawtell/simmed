@@ -1,4 +1,3 @@
-import { Player } from "./drawable/player/player"
 import { Board } from "./drawable/board/board"
 import { Simulation } from "../simulation/simulation"
 

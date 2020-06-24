@@ -44,7 +44,7 @@ export class Board extends Drawable {
         }
     }
 
-    resetBoard() {
+    resetBoard(): void {
         for (let i = 0; i < this.numberOfXSquares; i++) {
             for (let j = 0; j < this.numberOfYSquares; j++) {
                 this.squares[i][j].contents = []
@@ -66,48 +66,7 @@ export class Board extends Drawable {
         this.context && this.draw(this.context)
     }
 
-    // movePlayer(direction: Direction): boolean {
-    //     let intendedXDelta = 0
-    //     let intendedYDelta = 0
-    //     switch (direction) {
-    //         case Direction.up: {
-    //             intendedYDelta = -1
-    //             break
-    //         }
-    //         case Direction.down: {
-    //             intendedYDelta = 1
-    //             break
-    //         }
-    //         case Direction.left: {
-    //             intendedXDelta = -1
-    //             break
-    //         }
-    //         case Direction.right: {
-    //             intendedXDelta = 1
-    //             break
-    //         }
-    //     }
-
-    //     const oldPlayerSquare = this.playerSquare
-    //     if (intendedXDelta !== 0 && this.isValidXMove(intendedXDelta, this.playerSquare)) {
-    //         this.playerSquare = this.squares[oldPlayerSquare.boardVector.y][
-    //             oldPlayerSquare.boardVector.x + intendedXDelta
-    //         ]
-    //         this.playerSquare.contents = "player"
-    //         oldPlayerSquare.contents = "blank"
-    //     } else if (intendedYDelta !== 0 && this.isValidYMove(intendedYDelta, this.playerSquare)) {
-    //         this.playerSquare = this.squares[oldPlayerSquare.boardVector.y + intendedYDelta][
-    //             oldPlayerSquare.boardVector.x
-    //         ]
-    //         this.playerSquare.contents = "player"
-    //         oldPlayerSquare.contents = "blank"
-    //     } else {
-    //         return false
-    //     }
-    //     return true
-    // }
-
-    draw(context: CanvasRenderingContext2D) {
+    draw(context: CanvasRenderingContext2D): void {
         const numberOfXSquares = this.width / squareWidth
         const numberOfYSquares = this.height / squareWidth
         for (let yStep = 0; yStep < numberOfYSquares; yStep++) {

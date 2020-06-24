@@ -26,7 +26,7 @@ export class Simulation {
         humanB.instruction = "wander"
 
         // Make Bob stay still
-        humanA.instruction = "stationary"
+        humanA.instruction = "wander"
 
         world.addEntity(humanA)
         world.addEntity(humanB)
