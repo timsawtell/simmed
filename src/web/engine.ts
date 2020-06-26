@@ -10,8 +10,8 @@ export class WebEngine {
         this.canvas = document.getElementById("canvas") as HTMLCanvasElement
         this.context = this.canvas.getContext("2d")
 
-        this.board = new Board(this.canvas.width, this.canvas.height, this.context)
-        this.board.canvasVector.x = this.board.canvasVector.y = 0
+        this.board = new Board(this.canvas.width, this.canvas.height, this.context!)
+        this.board.positionX = this.board.positionY = 0
 
         this.context && this.board.draw(this.context)
     }
@@ -19,6 +19,6 @@ export class WebEngine {
 
 window.onload = () => {
     const webEngine = new WebEngine()
-    const simulation = new Simulation()
+    const simulation = new Simulation(15)
     simulation.run(webEngine.board)
 }

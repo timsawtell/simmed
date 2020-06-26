@@ -1,6 +1,6 @@
-import { Drawable } from "../drawable"
 import { Square } from "./square"
 import { World } from "../../../world/world"
+import { Drawable } from "../drawable"
 // import { Player } from "../player/player"
 
 const squareWidth = 20
@@ -15,18 +15,16 @@ export enum Direction {
 
 export class Board extends Drawable {
     squares: Square[][]
-    width: number
-    height: number
     //player: Player
     numberOfXSquares: number
     numberOfYSquares: number
     gameOver: boolean
-    context: CanvasRenderingContext2D | null
+    context: CanvasRenderingContext2D
 
-    constructor(width: number, height: number, context: CanvasRenderingContext2D | null) {
+    constructor(width: number, height: number, context: CanvasRenderingContext2D) {
         super()
-        this.width = width
-        this.height = height
+        this.drawableWidth = width
+        this.drawableHeight = height
         this.numberOfXSquares = width / squareWidth
         this.numberOfYSquares = height / squareWidth
         this.gameOver = false
@@ -37,8 +35,8 @@ export class Board extends Drawable {
             this.squares[yStep] = []
             for (let xStep = 0; xStep < this.numberOfXSquares; xStep++) {
                 const square = new Square(yStep, xStep, squareWidth)
-                square.canvasVector.x = xStep * squareWidth
-                square.canvasVector.y = yStep * squareWidth
+                square.positionX = xStep * squareWidth
+                square.positionY = yStep * squareWidth
                 this.squares[yStep][xStep] = square
             }
         }
@@ -63,18 +61,16 @@ export class Board extends Drawable {
                 this.squares[ySquare][xSquare].contents.push(entity)
             })
         }
-        this.context && this.draw(this.context)
+        this.draw(this.context)
     }
 
     draw(context: CanvasRenderingContext2D): void {
-        const numberOfXSquares = this.width / squareWidth
-        const numberOfYSquares = this.height / squareWidth
+        super.draw(context)
+        const numberOfXSquares = this.drawableWidth / squareWidth
+        const numberOfYSquares = this.drawableHeight / squareWidth
         for (let yStep = 0; yStep < numberOfYSquares; yStep++) {
             for (let xStep = 0; xStep < numberOfXSquares; xStep++) {
                 this.squares[yStep][xStep].draw(context)
-                setTimeout(() => {
-                    this.squares[yStep][xStep].drawViruses(context)
-                })
             }
         }
     }

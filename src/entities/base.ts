@@ -1,20 +1,24 @@
 import { Virus } from "./virus"
+import { Drawable } from "../web/drawable/drawable"
 
-export abstract class Entity {
-    public positionX: number
-    public positionY: number
+export abstract class Entity extends Drawable {
     public positionZ: number
     public viruses: Virus[]
     public type: string
     public name: string
+    /** in years */
+    public age: number
+    public isAlive: boolean
+    public diedFrom?: Virus
 
-    constructor() {
-        this.positionX = 0
-        this.positionY = 0
+    constructor(age: number) {
+        super()
         this.positionZ = 0
         this.viruses = []
         this.type = ""
         this.name = ""
+        this.isAlive = true
+        this.age = age
     }
 
     abstract tick(tickNumber: number, elapsedTime: number): void
@@ -36,5 +40,14 @@ export abstract class Entity {
         } else {
             "Someone tried to give me a virus I already have lmao"
         }
+    }
+
+    draw(context: CanvasRenderingContext2D): void {
+        // implement me
+        super.draw(context)
+    }
+
+    clear(context: CanvasRenderingContext2D): void {
+        context.clearRect(this.positionX, this.positionY, this.drawableWidth, this.drawableHeight)
     }
 }

@@ -6,7 +6,12 @@ export abstract class Virus {
     carriers: string[]
     affects: string[]
     chanceOfTransmission: number
+    /** in meters */
     minimumDistanceBetweenEntitiesForTransmission: number
+    /** duration in days */
+    durationOfIllness: number
+    /** timestamp of when it was acquired */
+    timeAcquired: number
 
     constructor() {
         this.name = ""
@@ -14,10 +19,13 @@ export abstract class Virus {
         this.affects = []
         this.chanceOfTransmission = 0
         this.minimumDistanceBetweenEntitiesForTransmission = 0
+        this.durationOfIllness = 7
+        this.timeAcquired = 0
     }
 
     abstract probabilityOfTransmission(entityA: Entity, entityB: Entity): number
     abstract mutation(): Virus
+    abstract determineMortalityRate(entity: Entity): number
 }
 
 export class TheFlu extends Virus {
@@ -28,6 +36,16 @@ export class TheFlu extends Virus {
         this.carriers = ["Human"]
         this.chanceOfTransmission = 0.2
         this.minimumDistanceBetweenEntitiesForTransmission = 5.5 * BOARD_SCALE
+        this.timeAcquired = new Date().getSeconds()
+    }
+
+    determineMortalityRate(entity: Entity): number {
+        if (entity.age < 1) {
+            return 0.1
+        } else if (entity.age < 65) {
+            return 0.001
+        }
+        return 0.01
     }
 
     probabilityOfTransmission(fromEntity: Entity, toEntity: Entity): number {

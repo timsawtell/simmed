@@ -1,39 +1,17 @@
-import { Drawable } from "../drawable"
 import { Entity } from "../../../entities/base"
-import { BOARD_SCALE } from "../../../simulation/simulation"
+import { Drawable } from "../drawable"
 
 export type SquareContents = string | "_blank"
 
 export class Square extends Drawable {
-    width: number
     contents: Entity[]
     isRed: boolean
 
     constructor(row: number, column: number, width: number) {
         super()
-        this.boardVector.y = row
-        this.boardVector.x = column
-        this.width = this.height = width
+        this.drawableWidth = this.drawableHeight = width
         this.contents = []
         this.isRed = false
-    }
-
-    drawViruses(context: CanvasRenderingContext2D): void {
-        if (this.contents.length > 0) {
-            this.contents.forEach((entity) => {
-                entity.viruses.forEach((virus) => {
-                    context.beginPath()
-                    context.arc(
-                        this.canvasVector.x + this.width / 2,
-                        this.canvasVector.y + this.width / 2,
-                        virus.minimumDistanceBetweenEntitiesForTransmission,
-                        0,
-                        2 * Math.PI
-                    )
-                    context.stroke()
-                })
-            })
-        }
     }
 
     draw(context: CanvasRenderingContext2D): void {
@@ -41,24 +19,22 @@ export class Square extends Drawable {
 
         //draw your own border
         context.beginPath()
-        context.strokeStyle = "black"
+        context.strokeStyle = "grey"
         context.lineWidth = 1
-        context.moveTo(this.canvasVector.x, this.canvasVector.y)
-        context.lineTo(this.canvasVector.x + this.width, this.canvasVector.y)
-        context.lineTo(this.canvasVector.x + this.width, this.canvasVector.y + this.width)
-        context.lineTo(this.canvasVector.x, this.canvasVector.y + this.width)
-        context.lineTo(this.canvasVector.x, this.canvasVector.y)
+        context.moveTo(this.positionX, this.positionY)
+        context.lineTo(this.positionX + this.drawableWidth, this.positionY)
+        context.lineTo(this.positionX + this.drawableWidth, this.positionY + this.drawableWidth)
+        context.lineTo(this.positionX, this.positionY + this.drawableWidth)
+        context.lineTo(this.positionX, this.positionY)
         context.stroke()
 
-        context.font = "18px Arial"
-        // draw your contents
-        if (this.contents.length > 0) {
-            context.fillText(
-                this.contents.map((entity) => entity.name).join(","),
-                this.canvasVector.x,
-                this.canvasVector.y + 10,
-                this.width
-            )
-        }
+        // We need to do a setTimeout here so that all the squares get drawn before the entities
+        // are then overlaid on top of the entire board. Drawing a square clears out the area that
+        // a previous square may have used (e.g. to render a virus distance)
+        setTimeout(() => {
+            this.contents.forEach((entity) => {
+                entity.draw(context)
+            })
+        })
     }
 }
