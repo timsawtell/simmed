@@ -4,8 +4,8 @@ import { World } from "../src/world/world"
 describe("Entity tests", () => {
     it("Can determine distances correctly", () => {
         const world = new World()
-        const a = new Human("Bob", world)
-        const b = new Human("Alice", world)
+        const a = new Human("Bob", world, 25)
+        const b = new Human("Alice", world, 25)
 
         // 2d Movement
         a.positionX = 0

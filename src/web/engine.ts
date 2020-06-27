@@ -19,6 +19,6 @@ export class WebEngine {
 
 window.onload = () => {
     const webEngine = new WebEngine()
-    const simulation = new Simulation(15)
+    const simulation = new Simulation(10)
     simulation.run(webEngine.board)
 }

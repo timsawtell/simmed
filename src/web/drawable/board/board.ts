@@ -1,9 +1,10 @@
 import { Square } from "./square"
 import { World } from "../../../world/world"
 import { Drawable } from "../drawable"
-// import { Player } from "../player/player"
+import { Entity } from "../../../entities/base"
 
-const squareWidth = 20
+export const TRAVEL_COST = 10
+const squareWidth = 10
 // const sceneryPercent = 0.1
 
 export enum Direction {
@@ -15,7 +16,6 @@ export enum Direction {
 
 export class Board extends Drawable {
     squares: Square[][]
-    //player: Player
     numberOfXSquares: number
     numberOfYSquares: number
     gameOver: boolean
@@ -34,7 +34,7 @@ export class Board extends Drawable {
         for (let yStep = 0; yStep < this.numberOfYSquares; yStep++) {
             this.squares[yStep] = []
             for (let xStep = 0; xStep < this.numberOfXSquares; xStep++) {
-                const square = new Square(yStep, xStep, squareWidth)
+                const square = new Square(squareWidth)
                 square.positionX = xStep * squareWidth
                 square.positionY = yStep * squareWidth
                 this.squares[yStep][xStep] = square
@@ -45,7 +45,7 @@ export class Board extends Drawable {
     resetBoard(): void {
         for (let i = 0; i < this.numberOfXSquares; i++) {
             for (let j = 0; j < this.numberOfYSquares; j++) {
-                this.squares[i][j].contents = []
+                this.squares[j][i].contents = []
             }
         }
     }
@@ -73,5 +73,59 @@ export class Board extends Drawable {
                 this.squares[yStep][xStep].draw(context)
             }
         }
+    }
+
+    squareForEntity(entity: Entity): Square | null {
+        for (let yStep = 0; yStep < this.numberOfYSquares; yStep++) {
+            for (let xStep = 0; xStep < this.numberOfXSquares; xStep++) {
+                if (this.squares[yStep][xStep].contents.includes(entity)) {
+                    return this.squares[yStep][xStep]
+                }
+            }
+        }
+        return null
+    }
+
+    /**
+     * This is so bad, need to make it understandable. TODO: be good
+     * @param square
+     */
+    neighbors(square: Square): Square[] {
+        const neighbors: Square[] = []
+        const north =
+            square.positionY / squareWidth > 0
+                ? this.squares[square.positionY / squareWidth - 1][square.positionX / squareWidth]
+                : null
+        const south =
+            square.positionY / squareWidth < this.numberOfYSquares - 1
+                ? this.squares[square.positionY / squareWidth + 1][square.positionX / squareWidth]
+                : null
+        const east =
+            square.positionX / squareWidth < this.numberOfXSquares - 1
+                ? this.squares[square.positionY / squareWidth][square.positionX / squareWidth + 1]
+                : null
+        const west =
+            square.positionX / squareWidth > 0
+                ? this.squares[square.positionY / squareWidth][square.positionX / squareWidth - 1]
+                : null
+        if (!!north && !north.isImpassable()) {
+            neighbors.push(north)
+        }
+        if (!!south && !south.isImpassable()) {
+            neighbors.push(south)
+        }
+        if (!!east && !east.isImpassable()) {
+            neighbors.push(east)
+        }
+        if (!!west && !west.isImpassable()) {
+            neighbors.push(west)
+        }
+        return neighbors
+    }
+
+    hCostForSquare(start: Square, end: Square) {
+        const xCost = Math.abs(start.positionX - end.positionX)
+        const yCost = Math.abs(start.positionY - end.positionY)
+        return xCost * TRAVEL_COST + yCost * TRAVEL_COST
     }
 }

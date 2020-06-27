@@ -12,7 +12,6 @@ export abstract class Drawable {
     }
 
     draw(context: CanvasRenderingContext2D): void {
-        // implement me
         this.clear(context)
     }
 

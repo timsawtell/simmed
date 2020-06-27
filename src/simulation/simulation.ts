@@ -3,6 +3,8 @@ import { Engine } from "../engine/engine"
 import { Human } from "../entities/human"
 import { TheFlu } from "../entities/virus"
 import { Board } from "../web/drawable/board/board"
+import { BusStop } from "../entities/bus-stop"
+import { Square } from "../web/drawable/board/square"
 
 export const BOARD_SCALE = 10
 
@@ -40,6 +42,13 @@ export class Simulation {
         // world.addEntity(humanB)
 
         this.addNewHuman()
+        const busStop = new BusStop()
+        busStop.positionX = 200
+        busStop.positionY = 200
+        busStop.drawableHeight = (board?.squares[0][0] as Square).drawableHeight
+        busStop.drawableWidth = (board?.squares[0][0] as Square).drawableWidth
+        this.world.entities.push(busStop)
+
         this.engine = new Engine(this.world, board)
         this.engine.start()
     }
@@ -60,7 +69,7 @@ export class Simulation {
         }
         this.world.addEntity(human)
         if (this.world.entities.length < this.numberOfHumans) {
-            setTimeout(this.addNewHuman, 1500)
+            setTimeout(this.addNewHuman, 500)
         }
     }
 }

@@ -2,16 +2,38 @@ import { Entity } from "../../../entities/base"
 import { Drawable } from "../drawable"
 
 export type SquareContents = string | "_blank"
+interface PathfindingData {
+    gCost: number
+    hCost: number
+    fCost: number
+}
 
 export class Square extends Drawable {
     contents: Entity[]
-    isRed: boolean
+    pathFindingData: PathfindingData
 
-    constructor(row: number, column: number, width: number) {
+    constructor(width: number) {
         super()
         this.drawableWidth = this.drawableHeight = width
         this.contents = []
-        this.isRed = false
+        this.pathFindingData = { hCost: 0, fCost: 0, gCost: 0 }
+    }
+
+    isImpassable(): boolean {
+        for (let i = 0; i < this.contents.length; i++) {
+            if (this.contents[i].type === "scenery") {
+                return true
+            }
+        }
+        return false
+    }
+
+    resetPathfinding(): void {
+        this.pathFindingData = {
+            gCost: 0,
+            hCost: 0,
+            fCost: 0,
+        }
     }
 
     draw(context: CanvasRenderingContext2D): void {

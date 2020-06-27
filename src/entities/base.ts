@@ -1,27 +1,23 @@
 import { Virus } from "./virus"
 import { Drawable } from "../web/drawable/drawable"
+import { World } from "../world/world"
+import { Board } from "../web/drawable/board/board"
 
 export abstract class Entity extends Drawable {
     public positionZ: number
     public viruses: Virus[]
-    public type: string
+    public type: "human" | "busstop" | "undefined" | "scenery"
     public name: string
-    /** in years */
-    public age: number
-    public isAlive: boolean
-    public diedFrom?: Virus
 
-    constructor(age: number) {
+    constructor() {
         super()
         this.positionZ = 0
         this.viruses = []
-        this.type = ""
+        this.type = "undefined"
         this.name = ""
-        this.isAlive = true
-        this.age = age
     }
 
-    abstract tick(tickNumber: number, elapsedTime: number): void
+    abstract tick(tickNumber: number, elapsedTime: number, world: World, board?: Board): void
 
     distanceTo(entity: Entity): number {
         const a = this.positionX - entity.positionX
@@ -49,5 +45,10 @@ export abstract class Entity extends Drawable {
 
     clear(context: CanvasRenderingContext2D): void {
         context.clearRect(this.positionX, this.positionY, this.drawableWidth, this.drawableHeight)
+    }
+
+    move(deltaX: number, deltaY: number) {
+        this.positionX = this.positionX + deltaX
+        this.positionY = this.positionY + deltaY
     }
 }

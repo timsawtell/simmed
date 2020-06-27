@@ -1,5 +1,6 @@
 import { Entity } from "./base"
 import { BOARD_SCALE } from "../simulation/simulation"
+import { Human } from "./human"
 
 export abstract class Virus {
     name: string
@@ -40,12 +41,16 @@ export class TheFlu extends Virus {
     }
 
     determineMortalityRate(entity: Entity): number {
-        if (entity.age < 1) {
-            return 0.1
-        } else if (entity.age < 65) {
-            return 0.001
+        if (entity.type === "human") {
+            const human = entity as Human
+            if (human.age < 3) {
+                return 0.1
+            } else if (human.age < 65) {
+                return 0.001
+            }
+            return 0.01
         }
-        return 0.01
+        return 0
     }
 
     probabilityOfTransmission(fromEntity: Entity, toEntity: Entity): number {

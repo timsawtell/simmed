@@ -22,7 +22,7 @@ export class Engine {
 
     tick(): void {
         this.world.entities.forEach((entity) => {
-            entity.tick(this.ticks, new Date().getMilliseconds() - this.startTime)
+            entity.tick(this.ticks, new Date().getMilliseconds() - this.startTime, this.world, this.board)
         })
 
         if (this.board) {
@@ -39,7 +39,7 @@ export class Engine {
             return
         }
 
-        setTimeout(this.tick, 100)
+        setTimeout(this.tick, 500)
 
         console.log("Distance: " + this.world.entities[0].distanceTo(this.world.entities[1]))
     }
